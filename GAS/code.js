@@ -2,11 +2,14 @@ function SendTweet() {
     let spreadsheet = SpreadsheetApp.openById('スプレッドシートのID');//スプレッドシートのID
     let sheet = spreadsheet.getSheetByName('Twitter');//シートのID
     var twitterService = getTwitterService("ツイートするアカウントの名前");//ツイートするアカウントの名前(＠マークからはじまるアレ)
-    let texts = sheet.getRange(`A:A`).getValues().filter(text => text[0]);
-    Logger.log(texts);
-    var message = {
-      text: `${texts[Math.floor(Math.random() * texts.length)]}`
-    }
+      let block_text = sheet.getRange(`D3`).getValue();
+  let texts = sheet.getRange(`A:A`).getValues().filter(text => text != "" && text != block_text);
+  console.log(texts)
+  let random_text = texts[Math.floor(Math.random() * texts.length)];
+  sheet.getRange(`D3`).setValue(random_text)
+  var message = {
+    text: `${random_text}`
+  }
     var options = {
       "method": "post",
       "muteHttpExceptions": true,
